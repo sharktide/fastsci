@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "fft.h"
+#include "main.h"
 #include <math.h>
 
 #define PI 3.14159265358979323846

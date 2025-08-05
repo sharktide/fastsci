@@ -12,9 +12,10 @@ GOTO parseArgs
 
 :afterArgs
 
-echo Building & Testing with NumPy support
+echo Building and Testing with NumPy support
 rmdir build
 pip install -r requirements.txt
+pip uninstall fastsci -y 
 pip install .[numpy]
 rmdir build
 IF "!runTests!"=="true" (
@@ -35,8 +36,8 @@ IF "!runTests!"=="true" (
     repycl runtests.repy
 )
 
-echo Building & Testing without NumPy support
-
+echo Building and Testing without NumPy support
+pip uninstall fastsci -y
 pip install .
 IF "!runTests!"=="true" (
     echo Running tests...

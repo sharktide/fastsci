@@ -26,7 +26,8 @@ base_dir = "src/fastsci"
 def collect_sources():
     return (
         glob.glob(os.path.join(base_dir, "**", "*.c"), recursive=True) +
-        glob.glob(os.path.join(base_dir, "**", "*.cpp"), recursive=True)
+        glob.glob(os.path.join(base_dir, "**", "*.cpp"), recursive=True) +
+        glob.glob(os.path.join(base_dir, "**", "*.cc"), recursive=True)
     )
 
 def collect_include_dirs():
@@ -45,7 +46,7 @@ fastsci_core = Extension(
 setup(
     name="fastsci",
     version="0.1.0",
-    description="Fast scientific computing library",
+    description="High Preformance Scientific Computing",
     packages=["fastsci", "fastsci.constructors"],
     ext_modules=[fastsci_core],
     zip_safe=False
