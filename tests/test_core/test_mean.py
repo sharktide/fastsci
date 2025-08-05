@@ -1,0 +1,14 @@
+import unittest
+import fastsci.core as fc
+import array
+
+class TestMean(unittest.TestCase):
+    def test_mean_basic(self):
+        data = array.array('d', [1.0, 2.0, 3.0, 4.0])
+        result = fc.mean(data)
+        self.assertAlmostEqual(result, 2.5, places=6)
+
+    def test_mean_single(self):
+        data = array.array('d', [42.0])
+        result = fc.mean(data)
+        self.assertEqual(result, 42.0)

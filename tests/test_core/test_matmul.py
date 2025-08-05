@@ -1,0 +1,17 @@
+import unittest
+import fastsci.core as fc
+import array
+
+class TestMatMul(unittest.TestCase):
+    def test_matmul_2x2(self):
+        A = array.array('d', [1, 2, 3, 4])  # 2x2
+        B = array.array('d', [5, 6, 7, 8])  # 2x2
+        C = bytearray(4 * 8)  # 2x2 result
+
+        result = fc.matmul(A, B, 2, 2, 2)
+        C[:] = result
+
+        out = array.array('d', C)
+        expected = [19.0, 22.0, 43.0, 50.0]
+        for i in range(4):
+            self.assertAlmostEqual(out[i], expected[i], places=6)

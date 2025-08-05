@@ -1,0 +1,14 @@
+import unittest
+import fastsci.core as fc
+import array
+
+class TestStdDev(unittest.TestCase):
+    def test_stddev_basic(self):
+        data = array.array('d', [1.0, 2.0, 3.0, 4.0])
+        result = fc.stddev(data)
+        self.assertAlmostEqual(result, 1.11803, places=4)
+
+    def test_stddev_zero(self):
+        data = array.array('d', [5.0, 5.0, 5.0])
+        result = fc.stddev(data)
+        self.assertAlmostEqual(result, 0.0, places=6)
