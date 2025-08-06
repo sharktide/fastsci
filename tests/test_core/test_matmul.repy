@@ -8,7 +8,7 @@ class TestMatMul(unittest.TestCase):
         B = array.array('d', [5, 6, 7, 8])  # 2x2
         C = bytearray(4 * 8)  # 2x2 result
 
-        result = fc.matmul(A, B, 2, 2, 2)
+        result = fc.matrix.matmul(A, B, 2, 2, 2)
         C[:] = result
 
         out = array.array('d', C)

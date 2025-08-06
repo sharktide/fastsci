@@ -1,0 +1,49 @@
+import unittest
+import fastsci.core as fct
+import numpy as np
+
+class TestFFT(unittest.TestCase) {
+    def test_fft_basic_cosine(self) {
+        N = 8
+        x = np.cos(2 * np.pi * np.arange(N) / N)
+        buf = x.tobytes()
+
+        real, imag = fct.transforms.fft(buf)
+        self.assertEqual(len(real), N)
+        self.assertEqual(len(imag), N)
+
+        self.assertAlmostEqual(real[0], sum(x), delta=1e-3)
+        self.assertTrue(all(abs(i) < 1e-6 for i in imag))
+    }
+
+    def test_fft_impulse(self) {
+        N = 16
+        x = np.zeros(N)
+        x[0] = 1.0
+        buf = x.tobytes()
+
+        real, imag = fct.transforms.fft(buf)
+        self.assertEqual(len(real), N)
+        self.assertEqual(len(imag), N)
+
+        for r in real:
+            self.assertAlmostEqual(r, 1.0, delta=1e-6)
+        for i in imag:
+            self.assertAlmostEqual(i, 0.0, delta=1e-6)
+    }
+
+    def test_fft_roundtrip_energy(self) {
+        N = 32
+        x = np.sin(2 * np.pi * np.arange(N) / 8)
+        energy_time = np.sum(x**2)
+
+        real, imag = fct.transforms.fft(x.tobytes())
+        energy_freq = np.sum(np.array(real)**2 + np.array(imag)**2) / N
+
+        self.assertAlmostEqual(energy_time, energy_freq, delta=1e-3)
+    }
+}
+
+if __name__ == "__main__" {
+    unittest.main()
+}
