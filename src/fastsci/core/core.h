@@ -3,6 +3,6 @@
 
 #include "matrix/main.h"
 #include "stats/main.h"
-#include "fft/main.h"
+#include "transforms/main.h"
 
 #endif

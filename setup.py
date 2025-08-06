@@ -27,7 +27,8 @@ def collect_sources():
     return (
         glob.glob(os.path.join(base_dir, "**", "*.c"), recursive=True) +
         glob.glob(os.path.join(base_dir, "**", "*.cpp"), recursive=True) +
-        glob.glob(os.path.join(base_dir, "**", "*.cc"), recursive=True)
+        glob.glob(os.path.join(base_dir, "**", "*.cc"), recursive=True) +
+        glob.glob(os.path.join(base_dir, "**", "*.cxx"), recursive=True)
     )
 
 def collect_include_dirs():

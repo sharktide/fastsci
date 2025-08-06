@@ -26,7 +26,19 @@ static PyObject* py_fft(PyObject* self, PyObject* args) {
     return PyTuple_Pack(2, real_list, imag_list);
 }
 
-static PyMethodDef FFTMethods[] = {
+static PyMethodDef TransformsMethods[] = {
     {"fft", py_fft, METH_VARARGS, "Compute FFT of array"},
     {NULL, NULL, 0, NULL}
 };
+
+static struct PyModuleDef transforms_module = {
+    PyModuleDef_HEAD_INIT,
+    "fastsci.core.stats",
+    "Statistical operations submodule",
+    -1,
+    TransformsMethods
+};
+
+extern "C" PyMODINIT_FUNC PyInit_transforms(void) {
+    return PyModule_Create(&transforms_module);
+}

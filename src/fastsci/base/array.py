@@ -1,6 +1,6 @@
 import array
 import random
-import fastsci.core as fct  # Native backend
+import fastsci.core as fct
 import numpy as np
 
 class Array:
@@ -22,19 +22,19 @@ class Array:
         self.dtype = dtype
 
     def mean(self):
-        return fct.mean(self.buffer)
+        return fct.stats.mean(self.buffer)
 
     def stddev(self):
-        return fct.stddev(self.buffer)
+        return fct.stats.stddev(self.buffer)
 
     def __add__(self, other):
         if isinstance(other, Array):
-            result_bytes = fct.add_arrays(self.buffer, other.buffer)
+            result_bytes = fct.stats.add_arrays(self.buffer, other.buffer)
             result_array = array.array(self.typecode)
             result_array.frombytes(result_bytes)
             return Array(result_array, shape=self.shape)
         elif isinstance(other, (int, float)):
-            result_bytes = fct.add_scalar(self.buffer, float(other))
+            result_bytes = fct.matrix.add_scalar(self.buffer, float(other))
             result_array = array.array(self.typecode)
             result_array.frombytes(result_bytes)
             return Array(result_array, shape=self.shape)
@@ -46,7 +46,7 @@ class Array:
             # future: implement mul_arrays in C for performance
             return Array([a * b for a, b in zip(self.buffer, other.buffer)], shape=self.shape)
         elif isinstance(other, (int, float)):
-            result_bytes = fct.mul_scalar(self.buffer, float(other))
+            result_bytes = fct.matrix.mul_scalar(self.buffer, float(other))
             result_array = array.array(self.typecode)
             result_array.frombytes(result_bytes)
             return Array(result_array, shape=self.shape)

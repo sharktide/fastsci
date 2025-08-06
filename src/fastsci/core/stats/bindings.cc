@@ -1,6 +1,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include "../core.h"
+#include "bindings.hpp" 
 
 static PyObject* py_mean(PyObject* self, PyObject* args) {
     Py_buffer buf;
@@ -55,3 +56,15 @@ static PyMethodDef StatsMethods[] = {
     {"add_arrays", py_add_arrays, METH_VARARGS, "Element-wise array addition"},
     {NULL, NULL, 0, NULL}
 };
+
+static struct PyModuleDef stats_module = {
+    PyModuleDef_HEAD_INIT,
+    "fastsci.core.stats",
+    "Statistical operations submodule",
+    -1,
+    StatsMethods
+};
+
+extern "C" PyMODINIT_FUNC PyInit_stats(void) {
+    return PyModule_Create(&stats_module);
+}

@@ -1,6 +1,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include "../core.h"
+#include "bindings.hpp"
 
 static PyObject* py_matmul(PyObject* self, PyObject* args) {
     Py_buffer a_buf, b_buf;
@@ -39,7 +40,7 @@ static PyObject* py_add_scalar(PyObject* self, PyObject* args) {
     if (!PyArg_ParseTuple(args, "y*d", &a_buf, &scalar))
         return NULL;
 
-    int size = a_buf.len / sizeof(double);
+    size_t size = a_buf.len / sizeof(double);
     double* out = (double*)malloc(sizeof(double) * size);
     if (!out) {
         PyBuffer_Release(&a_buf);
@@ -61,7 +62,7 @@ static PyObject* py_mul_scalar(PyObject* self, PyObject* args) {
     if (!PyArg_ParseTuple(args, "y*d", &a_buf, &scalar))
         return NULL;
 
-    int size = a_buf.len / sizeof(double);
+    size_t size = a_buf.len / sizeof(double);
     double* out = (double*)malloc(sizeof(double) * size);
     if (!out) {
         PyBuffer_Release(&a_buf);
@@ -82,3 +83,15 @@ static PyMethodDef MatrixMethods[] = {
     {"mul_scalar", py_mul_scalar, METH_VARARGS, "Multiply array by scalar"},
     {NULL, NULL, 0, NULL}
 };
+
+static struct PyModuleDef matrix_module = {
+    PyModuleDef_HEAD_INIT,
+    "fastsci.core.matrix",
+    "Matrix operations submodule",
+    -1,
+    MatrixMethods
+};
+
+extern "C" PyMODINIT_FUNC PyInit_matrix(void) {
+    return PyModule_Create(&matrix_module);
+}
