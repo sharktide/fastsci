@@ -8,8 +8,8 @@ done
 
 echo "Building & Testing with NumPy support"
 rm -rf build
-pip install -r requirements.txt
-pip install .[numpy]
+pip install -r requirements.txt || exit 1
+pip install .[numpy] || exit 1
 rm -rf build
 
 if [ "$runTests" = true ]; then
@@ -30,7 +30,7 @@ if [ "$runTests" = true ]; then
 fi
 
 echo "Building & Testing without NumPy support"
-pip install .
+pip install . || exit 1
 
 if [ "$runTests" = true ]; then
   echo "Running tests..."

@@ -15,8 +15,12 @@ GOTO parseArgs
 echo Building and Testing with NumPy support
 rmdir build
 pip install -r requirements.txt
+IF ERRORLEVEL 1 GOTO end
+
 pip uninstall fastsci -y 
 pip install .[numpy]
+IF ERRORLEVEL 1 GOTO end
+
 rmdir build
 IF "!runTests!"=="true" (
     echo Running tests...
@@ -39,6 +43,8 @@ IF "!runTests!"=="true" (
 echo Building and Testing without NumPy support
 pip uninstall fastsci -y
 pip install .
+IF ERRORLEVEL 1 GOTO end
+
 IF "!runTests!"=="true" (
     echo Running tests...
 

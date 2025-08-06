@@ -9,7 +9,9 @@ foreach ($arg in $args) {
 Write-Host "Building & Testing with NumPy support"
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
 pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { exit 1 }
 pip install .[numpy]
+if ($LASTEXITCODE -ne 0) { exit 1 }
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
 
 if ($runTests) {
@@ -31,6 +33,7 @@ if ($runTests) {
 
 Write-Host "Building & Testing without NumPy support"
 pip install .
+if ($LASTEXITCODE -ne 0) { exit 1 }
 
 if ($runTests) {
     Write-Host "Running tests..."
