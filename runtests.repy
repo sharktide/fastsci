@@ -1,10 +1,76 @@
 import unittest
+import sys
+import restructuredpython.restructuredpython as rsp
+import glob
+import os
+import shutil
 
+from textformat import enable_windows_ansi_support, bcolors, TextFormat
+
+enable_windows_ansi_support()
+
+class ColorDotTestResult(unittest.TextTestResult) {
+    def addSuccess(self, test) {
+        super().addSuccess(test)
+        self.stream.write(TextFormat.style('.', TextFormat.COLORS["green"]))
+        self.stream.flush()
+    }
+
+    def addFailure(self, test, err) {
+        super().addFailure(test, err)
+        self.stream.write(TextFormat.style('F', TextFormat.COLORS["red"]))
+        self.stream.flush()
+    }
+
+    def addError(self, test, err) {
+        super().addError(test, err)
+        self.stream.write(TextFormat.style('E', TextFormat.COLORS["yellow"]))
+        self.stream.flush()
+    }
+
+    def addSkip(self, test, reason) {
+        super().addSkip(test, reason)
+        self.stream.write(TextFormat.style('S', TextFormat.COLORS["cyan"]))
+        self.stream.flush()
+    }
+
+    def stopTestRun(self) {
+        super().stopTestRun()
+        self.stream.write('\n')
+        self.stream.flush()
+    }
+}
+
+class ColorDotTestRunner(unittest.TextTestRunner) {
+    def __init__(self, **kwargs):
+        super().__init__(resultclass=ColorDotTestResult, verbosity=0, **kwargs)
+}
 if __name__ == "__main__" {
+
+    enable_windows_ansi_support()
+
+    original_argv = sys.argv.copy()
+    sys.argv = ["repy", "repyconfig.toml"]
+    rsp.main()
+    sys.argv = original_argv
+
+    print(TextFormat.style("\nRunning Tests...\n", TextFormat.COLORS["magenta"]))
+
     suite = unittest.defaultTestLoader.discover(
         start_dir="tests",
         pattern="test_*.py"
     )
-    runner = unittest.TextTestRunner(verbosity=2)
+
+    runner = ColorDotTestRunner()
     runner.run(suite)
+
+    os.remove("runtests.py")
+
+    for py_file in glob.glob(os.path.join("tests", "**", "*.py"), recursive=True) {
+        os.remove(py_file)
+    }
+
+    for cache in glob.glob(os.path.join("tests", "**", "__pycache__"), recursive=True) {
+        shutil.rmtree(cache)
+    }
 }

@@ -1,2 +1,2 @@
-restructuredpython
+restructuredpython>=2.5.1
 setuptools
