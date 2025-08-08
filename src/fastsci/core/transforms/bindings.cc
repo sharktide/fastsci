@@ -1,7 +1,9 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <vector>
-#include "../core.h"
+#include "../../bindings/converters.c"
+#include "bindings.hpp"
+#include "main.h"
 
 static PyObject* py_fft(PyObject* self, PyObject* args) {
     Py_buffer buf;
@@ -33,7 +35,7 @@ static PyMethodDef TransformsMethods[] = {
 
 static struct PyModuleDef transforms_module = {
     PyModuleDef_HEAD_INIT,
-    "fastsci.core.stats",
+    "fastsci.core.transforms",
     "Statistical operations submodule",
     -1,
     TransformsMethods

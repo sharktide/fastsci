@@ -1,7 +1,9 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include "../core.h"
+#include "../../bindings/converters.c"
 #include "bindings.hpp"
+#include "main.h"
 
 static PyObject* py_matmul(PyObject* self, PyObject* args) {
     Py_buffer a_buf, b_buf;

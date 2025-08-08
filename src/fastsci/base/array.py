@@ -29,7 +29,7 @@ class Array:
 
     def __add__(self, other):
         if isinstance(other, Array):
-            result_bytes = fct.stats.add_arrays(self.buffer, other.buffer)
+            result_bytes = fct.arrays.add_arrays(self.buffer, other.buffer)
             result_array = array.array(self.typecode)
             result_array.frombytes(result_bytes)
             return Array(result_array, shape=self.shape)

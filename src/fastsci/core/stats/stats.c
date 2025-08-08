@@ -15,9 +15,3 @@ double stddev(const double* data, size_t size) {
         sum_sq += (data[i] - avg) * (data[i] - avg);
     return sqrt(sum_sq / size);
 }
-
-void add_arrays(const double* a, const double* b, double* out, int size) {
-    for (int i = 0; i < size; ++i) {
-        out[i] = a[i] + b[i];
-    }
-}
